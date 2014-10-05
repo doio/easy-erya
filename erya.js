@@ -25,3 +25,4 @@ function freeVideo(){
 		window.clearInterval(i);
 	}
 	alert("现在你可以做别的事了，别忘了一会回来看看有没有验证码！");
+}
