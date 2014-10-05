@@ -20,6 +20,7 @@ function pageWhere(){
 }
 
 function freeVideo(){
+	isDiu = true;
 	window.onblur=null;
 	for(var i = 1; i < 1000; i++) {
 		window.clearInterval(i);
