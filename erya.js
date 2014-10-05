@@ -1,4 +1,3 @@
-
 //判断当前页面是否加载了jQery库，防止重复加载造成冲突
 if(typeof(jQuery)=="undefined"){
 	var my_jquery=document.createElement('script');
@@ -17,6 +16,7 @@ function pageWhere(){
 	if($("span:contains('火狐浏览器')")>0){
 		return "video";
 	}
+	return "nothing";
 }
 
 function freeVideo(){
