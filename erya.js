@@ -9,6 +9,7 @@ switch(pageWhere()){
 		freeVideo();
 		break;
 	case "homework":
+		showkeyArea();
 		insertKeyButton();
 		break;
 	default:
@@ -53,21 +54,41 @@ function freeVideo(){
 //在每道题目后插入获得答案的按钮
 function insertKeyButton(){
 	$("#_fr").attr("height","4000px");
-	getSubElem("dd").append('<br /><button style="height:35px;padding-left:7px;padding-right:7px;font-size:16px;border:0px;background-color:#3385ff;color:#FFFFFF;border-radius:5px">获得本题答案</button>');
+	getSubElem("dd").append('<br /><button style="height:35px;padding-left:7px;padding-right:7px;font-size:16px;border:0px;background-color:#3385ff;color:#FFFFFF;border-radius:5px">获得本题关键字</button>');
 	getSubElem("dd").find("button").click(function(event){
 		event.preventDefault();
-		$(this).html("稍等片刻，正在获得的答案...");
-		getAnswer(this);
+		//$(this).html("稍等片刻，正在获得的答案...");
+		getKey(this);
 	});
 }
-//该函数用于获得远程服务器上的答案
-function getAnswer(my_button){
+function getKey(my_button){
 	var title=$(my_button).parent("dd").prev("dt").text();
 	title=filterStr(title);
-	alert(title.substring(0,6));
+	title=title.substring(0,6);
+	$("#my_key").html(title);
+	/*
+	getSubElem("body").on("copy",function(){});
+	getSubElem("body").on("beforecopy",function(){});
+	getSubElem("#doing").remove();
+	getSubElem("#divLogin").remove();
+	*/
 }
-function showAnswerPage(){
-	
+function showkeyArea(){
+	$(".main").append('<div id="key_area"><h4 id="area_title" style="border-bottom:1px solid #000">关键字</h4><p id="my_key">请点击按钮获得关键字</p></div>');
+	$("#key_area").css({
+		"position":"fixed",
+		"top":"200px",
+		"right":"0px",
+		"width":"200px",
+		"height":"100px",
+		"background-color":"#ccc"
+	});
+	$("#my_key").css({
+		"font-size":"20px",
+		"margin":"20px"
+	});
+	window.open("http://erya.hang.im/","erya","height=400,width=600,top=0,right=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no");
+
 }
 /*作业处理函数结束*/
 
