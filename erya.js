@@ -5,6 +5,7 @@ var $page_homewrok="h3:contains('作业')";
 var $page_exam="h3:contains('网络通识课考试')";
 var $iframe_name="_fr";
 var $copy_control_target="#questionA";
+var $title;
 if(typeof(jQuery)=="undefined"){
 	var my_jquery=document.createElement("script");
 	my_jquery.src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js";
@@ -20,6 +21,8 @@ switch(pageWhere()){
 		enableCopy();
 		break;
 	case "exam":
+		showkeyArea();
+		insertKeyButton();
 		enableCopy();
 		break;
 	default:
@@ -73,18 +76,43 @@ function insertKeyButton(){
 		//$(this).html("稍等片刻，正在获得的答案...");
 		getKey(this);
 	});
+	search_button();
 }
 function getKey(my_button){
 	var title=$(my_button).parent("dd").prev("dt").text();
 	title=filterStr(title);
-	title=title.substring(0,6);
-	$("#my_key").html(title);
+	title=title.substring(0,100);
+	var url="http://www.baidu.com/s?wd="+title;
+	$title=title;
+	$("#search").attr("src",url);
 	/*
 	getSubElem("body").on("copy",function(){});
 	getSubElem("body").on("beforecopy",function(){});
 	getSubElem("#doing").remove();
 	getSubElem("#divLogin").remove();
 	*/
+}
+function search_button(){
+		var search_type=$(this).attr('id');
+		var url;
+		$("#baidu").bind("click",function(){
+			$("#search").attr("src","http://www.baidu.com/s?wd="+$title);
+		});
+		$("#360").bind("click",function(){
+			$("#search").attr("src","http://www.so.com/s?ie=utf-8&shb=1&src=360sou_newhome&q="+$title);
+		});
+		$("#sougou").bind("click",function(){
+			$("#search").attr("src","http://www.sogou.com/web?query="+$title);
+		});
+		$("#bing").bind("click",function(){
+			$("#search").attr("src","http://cn.bing.com/search?q="+$title);
+		});
+		$("#soso").bind("click",function(){
+			$("#search").attr("src","http://www.soso.com/q?ie=utf8&pid=s.idx&cid=s.idx.se&unc=&query="+$title);
+		});
+		$("#youdao").bind("click",function(){
+			$("#search").attr("src","http://www.youdao.com/search?q="+$title);
+		});
 }
 function enableCopy(){
 	iframe_body=$(document.getElementById($iframe_name).contentWindow.document.body);
@@ -101,19 +129,30 @@ function enableCopy(){
 	getSubElem("dl").css("background-color","#cccccc");
 }
 function showkeyArea(){
-	$(".main").append('<div id="key_area"><h4 id="area_title" style="border-bottom:1px solid #000">关键字</h4><p id="my_key">请点击按钮获得关键字</p></div>');
+	$(".main").append('<div id="key_area">\
+							<h4 id="area_title" style="border-bottom:1px solid #000"><center>搜答案</center></h4>\
+							<div>\
+								<button id="baidu">百度</button>\
+								<button id="360">360搜索</button>\
+								<button id="sougou">搜狗</button>\
+								<button id="bing">Bing</button>\
+								<button id="soso">腾讯SOSO</button>\
+								<button id="youdao">有道</button>\
+							</div>\
+							<iframe target="_self" id="search" src="" width="100%" height="100%"/>\
+							</div>'
+					);
+	var top=$(window).height()-300;
 	$("#key_area").css({
 		"position":"fixed",
-		"top":"200px",
+		"top":top,
 		"right":"0px",
-		"width":"200px",
-		"height":"100px",
+		"width":"100%",
+		"height":"300px",
 		"background-color":"#ccc"
 	});
-	$("#my_key").css({
-		"font-size":"20px",
-		"margin":"20px"
-	});
+
+	
 
 }
 /*作业处理函数结束*/
@@ -129,6 +168,7 @@ function filterStr(str){
 	dealStr=dealStr.replace('）',")");
 	dealStr=dealStr.replace(/^[0-9]/,"");
 	dealStr=dealStr.replace(/^、/,"");
+	dealStr=dealStr.replace(/\(.{0,10}分\)/,"");
 	return dealStr;
 }
 
