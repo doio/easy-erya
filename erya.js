@@ -1,4 +1,10 @@
 //判断当前页面是否加载了jQery库，防止重复加载造成冲突
+//定义公共变量
+var $page_video="span:contains('火狐浏览器')";
+var $page_homewrok="h3:contains('作业')";
+var $page_exam="h3:contains('网络通识课考试')";
+var $iframe_name="_fr";
+var $copy_control_target="#questionA";
 if(typeof(jQuery)=="undefined"){
 	var my_jquery=document.createElement("script");
 	my_jquery.src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js";
@@ -11,17 +17,24 @@ switch(pageWhere()){
 	case "homework":
 		showkeyArea();
 		insertKeyButton();
+		enableCopy();
+		break;
+	case "exam":
+		enableCopy();
 		break;
 	default:
 		alert("嗯，在这个页面好像没什么可做!");
 }
 
 function pageWhere(){
-	if($("span:contains('火狐浏览器')").length>0){
+	if($($page_video).length>0){
 		return "video";
 	}
-	if(getSubElem("h3:contains('作业')").length>0){
+	if(getSubElem($page_homewrok).length>0){
 		return "homework";
+	}
+	if(getSubElem($page_exam).length > 0){
+		return "exam";
 	}
 	return "nothing";
 }
@@ -29,11 +42,11 @@ function pageWhere(){
 //用于获得iframe里面的dom对象
 function getSubElem(string,type){
 	if(typeof(type)=="undefined"){
-		return $(document.getElementById('_fr').contentWindow.document.body).find(string);
+		return $(document.getElementById($iframe_name).contentWindow.document.body).find(string);
 	}else if(type=="filter"){
-		return $(document.getElementById("_fr").contentWindow.document.body).filter(string);
+		return $(document.getElementById($iframe_name).contentWindow.document.body).filter(string);
 	}else{
-		return $(document.getElementById("_fr").contentWindow.document.body).find(string);
+		return $(document.getElementById($iframe_name).contentWindow.document.body).find(string);
 	}
 	
 }
@@ -73,6 +86,20 @@ function getKey(my_button){
 	getSubElem("#divLogin").remove();
 	*/
 }
+function enableCopy(){
+	iframe_body=$(document.getElementById($iframe_name).contentWindow.document.body);
+	iframe_body.attr("oncontextmenu","return true");
+	iframe_body.attr("ondragstart","return true");
+	iframe_body.attr("onselectstart","return true");
+	iframe_body.attr("onselect","return true");
+	iframe_body.attr("oncopy","return true");
+	iframe_body.attr("onbeforecopy","return true");
+	iframe_body.attr("onmouseup","return true");
+	target=getSubElem($copy_control_target);
+	target.onselectstart=function(){return true;}
+	target.onmousedown=function(){return true;}
+	getSubElem("dl").css("background-color","#cccccc");
+}
 function showkeyArea(){
 	$(".main").append('<div id="key_area"><h4 id="area_title" style="border-bottom:1px solid #000">关键字</h4><p id="my_key">请点击按钮获得关键字</p></div>');
 	$("#key_area").css({
@@ -87,7 +114,6 @@ function showkeyArea(){
 		"font-size":"20px",
 		"margin":"20px"
 	});
-	window.open("http://erya.hang.im/","erya","height=400,width=600,top=0,right=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no");
 
 }
 /*作业处理函数结束*/
