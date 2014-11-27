@@ -1,5 +1,6 @@
 //判断当前页面是否加载了jQery库，防止重复加载造成冲突
 //定义公共变量
+window.onerror=function(){return true;}
 var $page_video="span:contains('火狐浏览器')";
 var $page_homewrok="h3:contains('作业')";
 var $page_exam="h3:contains('网络通识课考试')";
@@ -30,6 +31,7 @@ switch(pageWhere()){
 }
 
 function pageWhere(){
+	try{
 	if($($page_video).length>0){
 		return "video";
 	}
@@ -40,6 +42,7 @@ function pageWhere(){
 		return "exam";
 	}
 	return "nothing";
+	}catch(err){return "video";}
 }
 
 //用于获得iframe里面的dom对象
@@ -129,7 +132,7 @@ function enableCopy(){
 	getSubElem("dl").css("background-color","#cccccc");
 }
 function showkeyArea(){
-	$(".main").append('<div id="key_area">\
+	$(".main").append('<button id="ctrl" title="hide">隐藏搜索界面</button><div id="key_area">\
 							<h4 id="area_title" style="border-bottom:1px solid #000"><center>搜答案</center></h4>\
 							<div>\
 								<button id="baidu">百度</button>\
@@ -150,6 +153,24 @@ function showkeyArea(){
 		"width":"100%",
 		"height":"300px",
 		"background-color":"#ccc"
+	});
+	$("#ctrl").css({
+		"position":"fixed",
+		"top":"50px",
+		"right":"50px",
+		"height":"50px"
+	});
+	$("#ctrl").bind("click",function(){
+		if($(this).attr("title") == "hide"){
+			$("#key_area").hide();
+			$(this).attr("title","show");
+			$(this).html("显示搜索界面");
+		}else{
+			$("#key_area").show();
+			$(this).attr("title","hide");
+			$(this).html("隐藏搜索界面");
+			
+		}
 	});
 
 	
