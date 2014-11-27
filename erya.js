@@ -75,7 +75,7 @@ function freeVideo(){
 //在每道题目后插入获得答案的按钮
 function insertKeyButton(){
 	$("#_fr").attr("height","10000px");
-	getSubElem("dd").append('<br /><button style="height:35px;padding-left:7px;padding-right:7px;font-size:16px;border:0px;background-color:#3385ff;color:#FFFFFF;border-radius:5px">获得本题关键字</button>');
+	getSubElem("dd").append('<br /><button style="height:35px;padding-left:7px;padding-right:7px;font-size:16px;border:0px;background-color:#3385ff;color:#FFFFFF;border-radius:5px">搜索本题</button>');
 	getSubElem("dd").find("button").click(function(event){
 		event.preventDefault();
 		//$(this).html("稍等片刻，正在获得的答案...");
