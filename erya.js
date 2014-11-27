@@ -15,16 +15,19 @@ if(typeof(jQuery)=="undefined"){
 switch(pageWhere()){
 	case "video":
 		freeVideo();
+		alert("OK");
 		break;
 	case "homework":
 		showkeyArea();
 		insertKeyButton();
 		enableCopy();
+		alert("OK");
 		break;
 	case "exam":
 		showkeyArea();
 		insertKeyButton();
 		enableCopy();
+		alert("OK");
 		break;
 	default:
 		alert("嗯，在这个页面好像没什么可做!");
@@ -63,7 +66,6 @@ function freeVideo(){
 	for(var i = 1; i < 1000; i++) {
 		window.clearInterval(i);
 	}
-	alert("现在你可以做别的事了，别忘了一会回来看看有没有验证码！");
 }
 
 
@@ -187,6 +189,7 @@ function filterStr(str){
 	dealStr=dealStr.replace('”',"'");
 	dealStr=dealStr.replace('（',"(");
 	dealStr=dealStr.replace('）',")");
+	dealStr=dealStr.replace(/^[0-9]/,"");
 	dealStr=dealStr.replace(/^[0-9]/,"");
 	dealStr=dealStr.replace(/^、/,"");
 	dealStr=dealStr.replace(/\(.{0,10}分\)/,"");
